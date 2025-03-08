@@ -15,5 +15,5 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
   instance:
-    # preferIpAddress: true  # ✅ Use IP instead of hostname
-    hostname: localhost  # ✅ Ensures local resolution
+    preferIpAddress: true  # ✅ Use IP instead of hostname
+    # hostname: localhost  # ✅ Ensures local resolution
