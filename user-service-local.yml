@@ -16,4 +16,4 @@ eureka:
     register-with-eureka: true
   instance:
     prefer-ip-address: true  # ✅ Use IP instead of hostname
-    hostname: localhost  # ✅ Ensures local resolution
+    # hostname: localhost  # ✅ Ensures local resolution
