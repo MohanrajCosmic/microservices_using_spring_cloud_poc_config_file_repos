@@ -18,39 +18,33 @@ spring:
           predicates:
             - Path=/user/**
           filters:
-            - CircuitBreaker=userServiceCircuitBreaker,forward:/fallback
+            - CircuitBreaker=customCircuitBreaker,forward:/fallback
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order/**
-          # filters:
-          #   - name: CircuitBreaker
-          #     args:
-          #       name: orderServiceCircuitBreaker
-          #       fallbackUri: forward:/fallback
+          filters:
+            - CircuitBreaker=customCircuitBreaker,forward:/fallback
         - id: inventory-service
           uri: lb://INVENTORY-SERVICE
           predicates:
             - Path=/inventory/**
-          # filters:
-          #   - name: CircuitBreaker
-          #     args:
-          #       name: inventoryServiceCircuitBreaker
-          #       fallbackUri: forward:/fallback
+          filters:
+            - CircuitBreaker=customCircuitBreaker,forward:/fallback
 
 resilience4j:
-      circuitbreaker:
-        instances:
-          userServiceCircuitBreaker:
-            registerHealthIndicator: true
-            slidingWindowSize: 10
-            minimumNumberOfCalls: 5
-            permittedNumberOfCallsInHalfOpenState: 3
-            automaticTransitionFromOpenToHalfOpenEnabled: true
-            waitDurationInOpenState: 5000
-            failureRateThreshold: 50
-            slowCallRateThreshold: 100
-            slowCallDurationThreshold: 2000
+  circuitbreaker:
+    instances:
+      customCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5000
+        failureRateThreshold: 50
+        slowCallRateThreshold: 100
+        slowCallDurationThreshold: 2000
 
 logging:
   level:
