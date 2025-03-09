@@ -38,7 +38,7 @@ spring:
           filters:
             - name: CircuitBreaker
               args:
-                name: orderServiceCircuitBreaker
+                name: inventoryServiceCircuitBreaker
                 fallbackUri: forward:/fallback
           
 
