@@ -18,19 +18,22 @@ spring:
           predicates:
             - Path=/user/**
           filters:
-            - CircuitBreaker=customCircuitBreaker,forward:/fallback
+             - name: CircuitBreaker
+               args:
+                 name: userServiceCircuitBreaker
+                 fallbackUri: forward:/fallback
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order/**
-          filters:
-            - CircuitBreaker=customCircuitBreaker,forward:/fallback
+          # filters:
+          #   - CircuitBreaker=customCircuitBreaker,forward:/fallback
         - id: inventory-service
           uri: lb://INVENTORY-SERVICE
           predicates:
             - Path=/inventory/**
-          filters:
-            - CircuitBreaker=customCircuitBreaker,forward:/fallback
+          # filters:
+          #   - CircuitBreaker=customCircuitBreaker,forward:/fallback
 
 resilience4j:
   circuitbreaker:
