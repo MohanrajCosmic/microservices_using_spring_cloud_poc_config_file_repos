@@ -9,6 +9,7 @@ eureka:
     preferIpAddress: true  # ✅ Use IP instead of hostname
     # hostname: localhost  # ✅ Ensures local resolution
 
+
 spring:
   cloud:
     gateway:
