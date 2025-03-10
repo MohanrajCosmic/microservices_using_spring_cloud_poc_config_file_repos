@@ -9,7 +9,7 @@ spring:
     name: User-Service
 
 app:
-  message: "Hello from Dev Profile! New"
+  message: "Hello from local Profile! New"
 
 eureka:
   client:
