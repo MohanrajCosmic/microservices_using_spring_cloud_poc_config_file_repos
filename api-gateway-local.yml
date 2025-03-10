@@ -57,10 +57,10 @@ logging:
     org.springframework.web: DEBUG
 
 management:
- health:
+  health:
     circuitbreakers:
       enabled: true
- endpoints:
+  endpoints:
     web:
       exposure:
         include: "*"
