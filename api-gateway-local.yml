@@ -57,6 +57,9 @@ logging:
     org.springframework.web: DEBUG
 
 management:
+ health:
+    circuitbreakers:
+      enabled: true
   endpoint:
     health:
       show-details: always
