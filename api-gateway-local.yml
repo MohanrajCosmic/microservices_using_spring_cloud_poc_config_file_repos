@@ -55,3 +55,8 @@ logging:
     org.springframework.cloud.gateway: DEBUG
     reactor.netty.http.client: DEBUG
     org.springframework.web: DEBUG
+
+management:
+  endpoint:
+    health:
+      show-details: always
