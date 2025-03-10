@@ -25,16 +25,15 @@ eureka:
 resilience4j:
   circuitbreaker:
     instances:
-      ORDER-SERVICE:
-        registerHealthIndicator: true
-        slidingWindowSize: 10
-        minimumNumberOfCalls: 5
-        permittedNumberOfCallsInHalfOpenState: 3
-        automaticTransitionFromOpenToHalfOpenEnabled: true
-        waitDurationInOpenState: 5000
-        failureRateThreshold: 50
-        slowCallRateThreshold: 100
-        slowCallDurationThreshold: 2000
+      orderCircuitBreaker:
+        registerHealthIndicator: true  # Expose circuit breaker health via the actuator
+        slidingWindowSize: 10          # Size of the sliding window for call recording
+        slidingWindowType: COUNT_BASED # Use count-based sliding window
+        minimumNumberOfCalls: 10       # Minimum number of calls before calculating failure rate
+        failureRateThreshold: 50       # If 50% (5 out of 10) calls fail, the circuit goes to OPEN state
+        waitDurationInOpenState: 1s   # Time the circuit stays OPEN before moving to HALF_OPEN
+        permittedNumberOfCallsInHalfOpenState: 3  # Number of test calls in HALF_OPEN state
+        eventConsumerBufferSize: 10    # Buffer size for event logs
 
 feign:
   client:
