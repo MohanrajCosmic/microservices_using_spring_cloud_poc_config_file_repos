@@ -21,3 +21,23 @@ eureka:
     # instance-id: ${spring.cloud.client.hostname}:${spring.application.name}:${server.port}
     preferIpAddress: true  # ✅ Use IP instead of hostname
     # hostname: localhost  # ✅ Ensures local resolution
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      ORDER-SERVICE:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5000
+        failureRateThreshold: 50
+        slowCallRateThreshold: 100
+        slowCallDurationThreshold: 2000
+
+feign:
+  client:
+    config:
+      default:
+        errorDecoder: com.example.userservice.GlobalFeignErrorDecoder # Replace with your class path
