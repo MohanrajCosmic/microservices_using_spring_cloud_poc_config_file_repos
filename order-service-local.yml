@@ -14,7 +14,7 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
-    registryFetchIntervalSeconds
+    registryFetchIntervalSeconds: 5  # Refresh service registry every 5s
   instance:
     preferIpAddress: true  # ✅ Use IP instead of hostname
     # hostname: localhost  # ✅ Ensures local resolution
