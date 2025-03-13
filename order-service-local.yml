@@ -18,3 +18,9 @@ eureka:
   instance:
     preferIpAddress: true  # ✅ Use IP instead of hostname
     # hostname: localhost  # ✅ Ensures local resolution
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/spring_cloud_microservices_poc
+
