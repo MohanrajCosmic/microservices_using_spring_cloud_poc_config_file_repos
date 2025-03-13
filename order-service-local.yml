@@ -7,9 +7,9 @@ server:
 spring:
   application:
     name: order-service
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/spring_cloud_microservices_poc
+  # data:
+  #   mongodb:
+  #     uri: mongodb://localhost:27017/spring_cloud_microservices_poc
 
 eureka:
   client:
