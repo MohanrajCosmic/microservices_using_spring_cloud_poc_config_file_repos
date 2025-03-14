@@ -22,25 +22,33 @@ spring:
           filters:
              - name: CircuitBreaker
                args:
-                 name: customCircuitBreaker
+                 name: userService
                  fallbackUri: forward:/fallback
+        
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order/**
-          # filters:
-          #   - CircuitBreaker=customCircuitBreaker,forward:/fallback
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: orderService
+                fallbackUri: forward:/fallback
+          
         - id: inventory-service
           uri: lb://INVENTORY-SERVICE
           predicates:
             - Path=/inventory/**
-          # filters:
-          #   - CircuitBreaker=customCircuitBreaker,forward:/fallback
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: inventoryService
+                fallbackUri: forward:/fallback
 
 resilience4j:
   circuitbreaker:
     instances:
-      customCircuitBreaker:
+      userService:
         registerHealthIndicator: true
         slidingWindowSize: 10
         minimumNumberOfCalls: 5
@@ -50,6 +58,14 @@ resilience4j:
         failureRateThreshold: 50
         slowCallRateThreshold: 100
         slowCallDurationThreshold: 10000
+  timelimiter:
+    instances:
+      userService:
+        timeoutDuration: 5s
+      orderService:
+        timeoutDuration: 5s
+      inventoryService:
+        timeoutDuration: 5s
 
 logging:
   level:
