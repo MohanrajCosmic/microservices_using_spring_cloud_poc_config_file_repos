@@ -49,7 +49,7 @@ resilience4j:
         waitDurationInOpenState: 5000
         failureRateThreshold: 50
         slowCallRateThreshold: 100
-        slowCallDurationThreshold: 2000
+        slowCallDurationThreshold: 10000
 
 logging:
   level:
