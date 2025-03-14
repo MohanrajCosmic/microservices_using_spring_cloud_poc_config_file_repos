@@ -57,23 +57,27 @@ resilience4j:
         waitDurationInOpenState: 5s
         failureRateThreshold: 50
         slowCallRateThreshold: 100
-        slowCallDurationThreshold: 10s
+        slowCallDurationThreshold: 5s
     instances:
       userService:
         baseConfig: default
+        slowCallDurationThreshold: 5s  # Overridden for orderService
       orderService:
         baseConfig: default
+        slowCallDurationThreshold: 5s  # Overridden for orderService
       inventoryService:
         baseConfig: default
   timelimiter:
     configs:
       default:
-        timeoutDuration: 5s
+        timeoutDuration: 7s
     instances:
       userService:
         baseConfig: default
+        timeoutDuration: 7s  # Overrides default 5s
       orderService:
         baseConfig: default
+        timeoutDuration: 7s  # Overrides default 5s
       inventoryService:
         baseConfig: default
 
