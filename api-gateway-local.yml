@@ -47,25 +47,35 @@ spring:
 
 resilience4j:
   circuitbreaker:
-    instances:
-      userService:
+    configs:
+      default:
         registerHealthIndicator: true
         slidingWindowSize: 10
         minimumNumberOfCalls: 5
         permittedNumberOfCallsInHalfOpenState: 3
         automaticTransitionFromOpenToHalfOpenEnabled: true
-        waitDurationInOpenState: 5000
+        waitDurationInOpenState: 5s
         failureRateThreshold: 50
         slowCallRateThreshold: 100
-        slowCallDurationThreshold: 10000
-  timelimiter:
+        slowCallDurationThreshold: 10s
     instances:
       userService:
-        timeoutDuration: 5s
+        baseConfig: default
       orderService:
-        timeoutDuration: 5s
+        baseConfig: default
       inventoryService:
+        baseConfig: default
+  timelimiter:
+    configs:
+      default:
         timeoutDuration: 5s
+    instances:
+      userService:
+        baseConfig: default
+      orderService:
+        baseConfig: default
+      inventoryService:
+        baseConfig: default
 
 logging:
   level:
