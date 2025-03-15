@@ -56,7 +56,7 @@ resilience4j:
         automaticTransitionFromOpenToHalfOpenEnabled: true
         waitDurationInOpenState: 15s
         failureRateThreshold: 50
-        slowCallRateThreshold: 10
+        slowCallRateThreshold: 50
         slowCallDurationThreshold: 5s
     instances:
       userService:
