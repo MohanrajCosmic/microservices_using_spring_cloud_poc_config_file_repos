@@ -46,10 +46,31 @@ resilience4j.circuitbreaker:
       waitDurationInOpenState: 5s
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
+      slowCallDurationThreshold: 5s
+    defaultSlowApi:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      minimumNumberOfCalls: 5
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      waitDurationInOpenState: 5s
+      failureRateThreshold: 50
+      eventConsumerBufferSize: 10
+      slowCallDurationThreshold: 8s
   instances:
     orderCircuitBreaker:
       baseConfig: default
-      waitDurationInOpenState: 5000
+      slowCallDurationThreshold: 10s
+    orderCircuitBreakerSlowApi:
+      baseConfig: default
+      slowCallDurationThreshold: 12s
+
+timelimiter:
+  instances:
+    orderCircuitBreaker:
+      timeoutDuration: 2s  # This API times out after 2 sec
+    orderCircuitBreakerSlowApi:
+      timeoutDuration: 10s  # This API times out after 10 sec
 
 feign:
   client:
