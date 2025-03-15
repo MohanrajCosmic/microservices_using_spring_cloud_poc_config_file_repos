@@ -67,8 +67,8 @@ resilience4j.circuitbreaker:
 
 timelimiter:
   configs:
-      default:
-        timeoutDuration: 8s
+    default:
+      timeoutDuration: 8s
   instances:
     orderCircuitBreaker:
       baseConfig: default
