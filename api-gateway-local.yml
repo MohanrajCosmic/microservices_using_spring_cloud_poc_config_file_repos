@@ -74,10 +74,10 @@ resilience4j:
     instances:
       userService:
         baseConfig: default
-        timeoutDuration: 7s  # Overrides default 5s
+        timeoutDuration: 7s  # Overrides default
       orderService:
         baseConfig: default
-        timeoutDuration: 7s  # Overrides default 5s
+        timeoutDuration: 7s  # Overrides default
       inventoryService:
         baseConfig: default
 
