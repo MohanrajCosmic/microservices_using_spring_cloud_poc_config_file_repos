@@ -54,17 +54,17 @@ resilience4j:
         minimumNumberOfCalls: 5
         permittedNumberOfCallsInHalfOpenState: 3
         automaticTransitionFromOpenToHalfOpenEnabled: true
-        waitDurationInOpenState: 5s
+        waitDurationInOpenState: 15s
         failureRateThreshold: 50
-        slowCallRateThreshold: 100
+        slowCallRateThreshold: 75
         slowCallDurationThreshold: 5s
     instances:
       userService:
         baseConfig: default
-        slowCallDurationThreshold: 5s  # Overridden for orderService
+        slowCallDurationThreshold: 5s  # Overridden
       orderService:
         baseConfig: default
-        slowCallDurationThreshold: 5s  # Overridden for orderService
+        slowCallDurationThreshold: 5s  # Overridden
       inventoryService:
         baseConfig: default
   timelimiter:
