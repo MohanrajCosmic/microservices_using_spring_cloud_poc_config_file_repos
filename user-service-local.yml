@@ -60,17 +60,17 @@ resilience4j.circuitbreaker:
   instances:
     orderCircuitBreaker:
       baseConfig: default
-      slowCallDurationThreshold: 10s
+      slowCallDurationThreshold: 5s
     orderCircuitBreakerSlowApi:
-      baseConfig: default
-      slowCallDurationThreshold: 12s
+      baseConfig: defaultSlowApi
+      slowCallDurationThreshold: 8s
 
 timelimiter:
   instances:
     orderCircuitBreaker:
-      timeoutDuration: 2s  # This API times out after 2 sec
+      timeoutDuration: 8s
     orderCircuitBreakerSlowApi:
-      timeoutDuration: 10s  # This API times out after 10 sec
+      timeoutDuration: 12s
 
 feign:
   client:
