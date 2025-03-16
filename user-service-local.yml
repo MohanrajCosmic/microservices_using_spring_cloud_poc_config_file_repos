@@ -82,7 +82,7 @@ resilience4j.circuitbreaker:
 feign:
   client:
     config:
-      ORDER-SERVICE:
+      default:
         connectTimeout: 2000   # 2 seconds
         readTimeout: 12000      # 12 seconds
         loggerLevel: FULL
