@@ -79,26 +79,26 @@ resilience4j.circuitbreaker:
 #       baseConfig: default
 #       timeoutDuration: 12s
 
-feign:
-  client:
-    config:
-      ORDER-SERVICE:     # exact service id has to be used here
-        connectTimeout: 2000   # 2 seconds
-        readTimeout: 9000      # 12 seconds
-        loggerLevel: FULL
-    circuitbreaker:
-      enabled: true   # To integrate feign exceptions with circuit breaker
+# feign:
+#   client:
+#     config:
+#       ORDER-SERVICE:     # exact service id has to be used here
+#         connectTimeout: 2000   # 2 seconds
+#         readTimeout: 9000      # 12 seconds
+#         loggerLevel: FULL
+#     circuitbreaker:
+#       enabled: true   # To integrate feign exceptions with circuit breaker
 
-# spring:
-#   cloud:
-#     openfeign:
-#       client:
-#         config:
-#           ORDER-SERVICE:
-#             connectTimeout: 5000
-#             readTimeout: 5000
-#         circuitbreaker:
-#           enabled: true   # To integrate feign exceptions with circuit breaker
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          ORDER-SERVICE:
+            connectTimeout: 5000
+            readTimeout: 5000
+      circuitbreaker:
+        enabled: true   # To integrate feign exceptions with circuit breaker
 
 retry:
   feign:
