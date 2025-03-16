@@ -82,14 +82,12 @@ resilience4j.circuitbreaker:
 feign:
   client:
     config:
-    # exact service id has to be used here
-      ORDER-SERVICE:
+      ORDER-SERVICE:     # exact service id has to be used here
         connectTimeout: 2000   # 2 seconds
         readTimeout: 12000      # 12 seconds
         loggerLevel: FULL
-  # To integrate feign exceptions with circuit breaker
   circuitbreaker:
-    enabled: true
+    enabled: true   # To integrate feign exceptions with circuit breaker
 
 retry:
   feign:
