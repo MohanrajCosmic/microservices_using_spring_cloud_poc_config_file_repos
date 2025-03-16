@@ -98,7 +98,7 @@ spring:
             connectTimeout: 5000
             readTimeout: 5000
         circuitbreaker:
-              enabled: true   # To integrate feign exceptions with circuit breaker
+          enabled: true   # To integrate feign exceptions with circuit breaker
 
 retry:
   feign:
