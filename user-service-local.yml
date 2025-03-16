@@ -85,6 +85,10 @@ feign:
       ORDER-SERVICE:
         connectTimeout: 2000   # 2 seconds
         readTimeout: 4000      # 12 seconds
+        loggerLevel: FULL
   circuitbreaker:
     enabled: true
 
+retry:
+  feign:
+    enabled: false  # ✅ Disable Feign retries to ensure timeout occurs immediately
