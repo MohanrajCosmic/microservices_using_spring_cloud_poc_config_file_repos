@@ -62,8 +62,7 @@ resilience4j.circuitbreaker:
       baseConfig: default
       slowCallDurationThreshold: 5s
       recordExceptions:
-        - feign.RetryableException
-        - feign.FeignException$ReadTimeout
+       - feign.FeignException  # ✅ Works for all Feign-related failures
     orderCircuitBreakerSlowApi:
       baseConfig: defaultSlowApi
       slowCallDurationThreshold: 8s
