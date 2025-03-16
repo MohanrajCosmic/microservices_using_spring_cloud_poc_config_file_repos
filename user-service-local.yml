@@ -82,6 +82,7 @@ resilience4j.circuitbreaker:
 feign:
   client:
     config:
+    # exact service id has to be used here
       ORDER-SERVICE:
         connectTimeout: 2000   # 2 seconds
         readTimeout: 12000      # 12 seconds
