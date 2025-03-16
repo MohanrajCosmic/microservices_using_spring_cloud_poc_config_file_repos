@@ -92,3 +92,9 @@ feign:
 retry:
   feign:
     enabled: false  # ✅ Disable Feign retries to ensure timeout occurs immediately
+
+logging:
+  level:
+    feign: DEBUG
+      org.springframework.cloud.openfeign: DEBUG
+      resilience4j: DEBUG
