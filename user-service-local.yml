@@ -88,7 +88,7 @@ spring:
             connectTimeout: 2000   # 2 seconds
             readTimeout: 9000      # 12 seconds
             loggerLevel: FULL
-        circuitbreaker:
+      circuitbreaker:
           enabled: true   # To integrate feign exceptions with circuit breaker
 
 retry:
