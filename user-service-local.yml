@@ -96,5 +96,5 @@ retry:
 logging:
   level:
     feign: DEBUG
-      org.springframework.cloud.openfeign: DEBUG
-      resilience4j: DEBUG
+    org.springframework.cloud.openfeign: DEBUG
+    resilience4j: DEBUG
