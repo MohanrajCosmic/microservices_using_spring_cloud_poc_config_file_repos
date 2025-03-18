@@ -15,6 +15,16 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: auth-service
+          uri: lb://AUTH-SERVICE  # Load-balanced call to Auth Service
+          predicates:
+            - Path=/auth/**
+          filters:
+             - name: CircuitBreaker
+               args:
+                 name: authService
+                 fallbackUri: forward:/fallback
+      
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -59,6 +69,9 @@ resilience4j:
         slowCallRateThreshold: 50
         slowCallDurationThreshold: 8s
     instances:
+      authService:
+        baseConfig: default
+        slowCallDurationThreshold: 8s  # Overridden
       userService:
         baseConfig: default
         slowCallDurationThreshold: 8s  # Overridden
