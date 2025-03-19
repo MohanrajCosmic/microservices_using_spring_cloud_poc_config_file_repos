@@ -18,7 +18,7 @@ spring:
         - id: auth-service
           uri: lb://AUTH-SERVICE  # Load-balanced call to Auth Service
           predicates:
-            - Path=/auth/**
+            - Path=/auth/api/**
           filters:
              - name: CircuitBreaker
                args:
