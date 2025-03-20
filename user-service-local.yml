@@ -4,9 +4,22 @@
 server:
   port: 0
 
+#  Spring Cloud OpenFeign with Resilience4j, Feign's timeout alone does not work reliably
+#  unless the circuit breaker timeout (timelimiter.timeoutDuration) is set slightly higher than Feign's timeout
 spring:
   application:
     name: User-Service
+  cloud:
+    config:
+      enabled: false
+    openfeign:
+      client:
+        config:
+          ORDER-SERVICE:
+            connectTimeout: 2000
+            readTimeout: 6000
+      circuitbreaker:
+        enabled: true   # Enables Feign integration with Resilience4j
 
 app:
   message: "Hello from local Profile!"
@@ -27,7 +40,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,circuitbreakers
+        include: health, info, metrics, circuitbreakers
   endpoint:
     health:
       show-details: always
@@ -40,17 +53,17 @@ resilience4j.circuitbreaker:
     default:
       registerHealthIndicator: true
       slidingWindowSize: 10
-      minimumNumberOfCalls: 5
+      minimumNumberOfCalls: 2
       permittedNumberOfCallsInHalfOpenState: 3
       automaticTransitionFromOpenToHalfOpenEnabled: true
-      waitDurationInOpenState: 5s
+      waitDurationInOpenState: 15s
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
       slowCallDurationThreshold: 5s
     defaultSlowApi:
       registerHealthIndicator: true
       slidingWindowSize: 10
-      minimumNumberOfCalls: 5
+      minimumNumberOfCalls: 2
       permittedNumberOfCallsInHalfOpenState: 3
       automaticTransitionFromOpenToHalfOpenEnabled: true
       waitDurationInOpenState: 5s
@@ -62,60 +75,35 @@ resilience4j.circuitbreaker:
       baseConfig: default
       slowCallDurationThreshold: 5s
       recordExceptions:
-       - feign.FeignException  # ✅ Works for all Feign-related failures
+        - feign.FeignException  # ✅ Works for all Feign-related failures
+        - java.util.concurrent.TimeoutException
+#        - java.net.SocketTimeoutException
+#        - org.springframework.web.client.HttpServerErrorException
+#        - java.io.IOException
     orderCircuitBreakerSlowApi:
       baseConfig: defaultSlowApi
       slowCallDurationThreshold: 8s
 
-# timelimiter:
-#   configs:
-#     default:
-#       timeoutDuration: 8s
-#   instances:
-#     orderCircuitBreaker:
-#       baseConfig: default
-#       timeoutDuration: 8s
-#     orderCircuitBreakerSlowApi:
-#       baseConfig: default
-#       timeoutDuration: 12s
+# These value should be > feign timeout threshold
+resilience4j:
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 12s  # ✅ Should be higher than Feign timeout
+    instances:
+      orderCircuitBreaker:
+        baseConfig: default
+        timeoutDuration: 12s   # ✅ Higher than Feign's 6s timeout
+      orderCircuitBreakerSlowApi:
+        baseConfig: default
+        timeoutDuration: 12s
 
-spring:
-  cloud:
-    loadbalancer:
-      clients:
-        ORDER-SERVICE:
-          timeout:
-            connect: 2000  # 2 seconds
-            read: 9000  # 9 seconds
-
-feign:
-  client:
-    config:
-      ORDER-SERVICE:     # exact service id has to be used here
-        connectTimeout: 2000   # 2 seconds
-        readTimeout: 9000      # 12 seconds
-        loggerLevel: FULL
-        retryer: never
-    circuitbreaker:
-      enabled: true   # To integrate feign exceptions with circuit breaker
-
-# spring:
-#   cloud:
-#     openfeign:
-#       client:
-#         config:
-#           ORDER-SERVICE:
-#             connectTimeout: 5000
-#             readTimeout: 5000
-#       circuitbreaker:
-#         enabled: true   # To integrate feign exceptions with circuit breaker
-
-retry:
-  feign:
-    enabled: false  # ✅ Disable Feign retries to ensure timeout occurs immediately
+#retry:
+#  feign:
+#    enabled: false  # ✅ Disable Feign retries to ensure timeout occurs immediately
 
 logging:
   level:
-    org.springframework.cloud.openfeign: DEBUG
-    feign.Logger: DEBUG
-    feign.Request: DEBUG
+    org.springframework.cloud.openfeign: INFO
+    feign.Logger: INFO
+    feign.Request: INFO
