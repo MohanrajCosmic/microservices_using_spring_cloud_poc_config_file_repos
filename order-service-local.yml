@@ -1,12 +1,17 @@
 # server:
-#   port: 8082
+#   port: 8083
 
 server:
   port: 0
+  servlet:
+    context-path: /order-service/api
 
 spring:
   application:
     name: Order-Service
+  cloud:
+    config:
+      enabled: false
   data:
     mongodb:
       uri: mongodb://localhost:27017/spring_cloud_microservices_poc
@@ -22,3 +27,18 @@ eureka:
     preferIpAddress: true  # ✅ Use IP instead of hostname
     # hostname: localhost  # ✅ Ensures local resolution
 
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs  # Default path for OpenAPI JSON
+    show-actuator: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    persist-authorization: true
+
+logging:
+  level:
+    org.springframework.cloud.openfeign: INFO
+    feign.Logger: INFO
+    feign.Request: INFO
