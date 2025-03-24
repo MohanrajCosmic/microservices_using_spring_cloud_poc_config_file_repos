@@ -1,5 +1,7 @@
+
 server:
   port: 8080
+  forward-headers-strategy: framework
 
 eureka:
   client:
@@ -10,41 +12,42 @@ eureka:
     preferIpAddress: true  # ✅ Use IP instead of hostname
     # hostname: localhost  # ✅ Ensures local resolution
 
-
 spring:
   cloud:
+    config:
+      enabled: false
     gateway:
       routes:
         - id: auth-service
           uri: lb://AUTH-SERVICE  # Load-balanced call to Auth Service
           predicates:
-            - Path=/auth/api/**
+            - Path=/auth-service/api/**
           filters:
-             - name: CircuitBreaker
-               args:
-                 name: authService
-                 fallbackUri: forward:/fallback
-      
+            - name: CircuitBreaker
+              args:
+                name: authService
+                fallbackUri: forward:/fallback
+
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/user/**
+            - Path=/user-service/api/**
           filters:
-             - name: CircuitBreaker
-               args:
-                 name: userService
-                 fallbackUri: forward:/fallback
-        
+            - name: CircuitBreaker
+              args:
+                name: userService
+                fallbackUri: forward:/fallback
+
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
-            - Path=/order/**
+            - Path=/order-service/**
           filters:
             - name: CircuitBreaker
               args:
                 name: orderService
                 fallbackUri: forward:/fallback
-          
+
         - id: inventory-service
           uri: lb://INVENTORY-SERVICE
           predicates:
@@ -54,6 +57,28 @@ spring:
               args:
                 name: inventoryService
                 fallbackUri: forward:/fallback
+
+        # Expose API Docs
+        - id: auth-service-docs
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/auth-service/api/v3/api-docs
+          filters:
+            - StripPrefix=1
+
+        - id: user-service-docs
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/api/v3/api-docs
+          filters:
+            - StripPrefix=1
+
+        - id: order-service-docs
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/order-service/api/v3/api-docs
+          filters:
+            - StripPrefix=1
 
 resilience4j:
   circuitbreaker:
@@ -99,6 +124,7 @@ logging:
     org.springframework.cloud.gateway: DEBUG
     reactor.netty.http.client: DEBUG
     org.springframework.web: DEBUG
+    org.springframework.cloud.gateway.route.RouteDefinitionLocator: DEBUG
 
 management:
   health:
@@ -111,3 +137,29 @@ management:
   endpoint:
     health:
       show-details: always
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - name: Auth Service
+        url: /auth-service/api/v3/api-docs
+      - name: User Service
+        url: /user-service/api/v3/api-docs
+      - name: Order Service
+        url: /order-service/api/v3/api-docs
+  group-configs:
+    - group: auth-service
+      paths-to-match: /auth-service/**
+      display-name: "Auth Service API"
+    - group: user-service
+      paths-to-match: /user-service/**
+      display-name: "User Service API"
+    - group: order-service
+      paths-to-match: /order-service/**
+      display-name: "Order Service API"
