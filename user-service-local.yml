@@ -25,6 +25,8 @@ spring:
             readTimeout: 6000
       circuitbreaker:
         enabled: true   # Enables Feign integration with Resilience4j
+     kafka:
+      bootstrap-servers: localhost:9092
 
 app:
   message: "Hello from local Profile!"
@@ -45,7 +47,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, info, metrics, circuitbreakers
+        include: health, refresh, info, metrics, circuitbreakers, bus-refresh
   endpoint:
     health:
       show-details: always
