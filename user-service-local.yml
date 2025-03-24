@@ -1,8 +1,13 @@
+
 # server:
-#   port: 8081
+#   port: 8082
+#     servlet:
+#      context-path: /user-service/api
 
 server:
-  port: 0
+ port: 0
+  servlet:
+    context-path: /user-service/api
 
 #  Spring Cloud OpenFeign with Resilience4j, Feign's timeout alone does not work reliably
 #  unless the circuit breaker timeout (timelimiter.timeoutDuration) is set slightly higher than Feign's timeout
@@ -77,9 +82,9 @@ resilience4j.circuitbreaker:
       recordExceptions:
         - feign.FeignException  # ✅ Works for all Feign-related failures
         - java.util.concurrent.TimeoutException
-#        - java.net.SocketTimeoutException
-#        - org.springframework.web.client.HttpServerErrorException
-#        - java.io.IOException
+    #        - java.net.SocketTimeoutException
+    #        - org.springframework.web.client.HttpServerErrorException
+    #        - java.io.IOException
     orderCircuitBreakerSlowApi:
       baseConfig: defaultSlowApi
       slowCallDurationThreshold: 8s
@@ -101,6 +106,16 @@ resilience4j:
 #retry:
 #  feign:
 #    enabled: false  # ✅ Disable Feign retries to ensure timeout occurs immediately
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs  # Default path for OpenAPI JSON
+    show-actuator: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    persist-authorization: true
 
 logging:
   level:
