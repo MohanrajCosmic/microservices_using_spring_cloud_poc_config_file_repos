@@ -28,7 +28,7 @@ spring:
         bootstrap-servers: localhost:9092
 
 app:
-  message: "Hello from local Profile! 678"
+  message: "Hello from local Profile! 123"
 
 eureka:
   client:
